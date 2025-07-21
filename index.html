@@ -1,1 +1,94 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Fehler</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+    .error-screen {
+      text-align: center;
+    }
+    .error-icon {
+      font-size: 80px;
+      color: #c4c4c4;
+    }
+    .error-title {
+      font-size: 24px;
+      margin: 10px 0;
+    }
+    .error-text {
+      color: #777;
+    }
+    .reload-button {
+      margin-top: 20px;
+      background-color: #4285f4;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
 
+    .flash {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: white;
+      animation: flashbang 0.4s ease-out;
+      z-index: 1000;
+    }
+
+    @keyframes flashbang {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="error-screen" id="errorScreen">
+    <div class="error-icon">😵</div>
+    <div class="error-title">Aw, Snap!</div>
+    <div class="error-text">Something went wrong while displaying this webpage.</div>
+    <button class="reload-button" onclick="triggerFlashbang()">Reload Page</button>
+  </div>
+
+  <!-- Sound: Fortnite-style Flashbang (sehr laut!) -->
+  <audio id="sound" src="https://cdn.glitch.global/7091f79c-d28a-4d49-a6a9-29e5c8ecfb39/fortnite-flashbang.mp3?v=1681680445432"></audio>
+
+  <script>
+    function triggerFlashbang() {
+      // Optional: Vollbildmodus aktivieren
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+
+      // Sound abspielen
+      const sound = document.getElementById('sound');
+      sound.volume = 1.0; // Maximal laut
+      sound.play();
+
+      // Blitz anzeigen
+      const flash = document.createElement('div');
+      flash.className = 'flash';
+      document.body.appendChild(flash);
+      setTimeout(() => flash.remove(), 400);
+
+      // Seite "crashen"
+      document.getElementById('errorScreen').innerHTML = `
+        <div style="font-size: 30px; color: red;">💥 FLASHBANG!</div>
+      `;
+    }
+  </script>
+</body>
+</html>
